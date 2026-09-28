@@ -1,0 +1,42 @@
+# Runtime parameters — loaded separately from config/agent.yaml.
+
+max_retry: 3
+timeout_seconds: 30
+
+# KB retrieval
+kb_top_k: 5
+
+# SDK QdrantVectorStore. Missing/disabled keeps the documented offline
+# degradation. Once enabled, every field below and the embedding section are
+# required; invalid configuration or credentials abort startup.
+vector_store:
+  enabled: false
+  url: "http://qdrant:6333"
+  collection_name: "svc_c2_030_hotel_kb"
+  namespace: "svc"
+  agent_name: "svc_c2_030"
+  vector_size: 1536
+  distance: "cosine"
+  timeout_s: 30
+  write_timeout_s: 60
+  max_batch_documents: 1000
+  max_top_k: 100
+
+# AzureEmbedding and QdrantVectorStore must use the same deployment/dimensions.
+# HOTEL_KB_EMBEDDING_API_KEY is resolved through the secret provider and is
+# intentionally absent from this file.
+embedding:
+  base_url: "https://YOUR-RESOURCE.openai.azure.com/"
+  model: "text-embedding-3-small"
+  api_version: "2024-02-15-preview"
+  dimensions: 1536
+  provider: "azure"
+  timeout_s: 30
+  batch_size: 16
+  max_retries: 5
+  base_delay: 1.0
+  max_delay: 60.0
+  max_cache_size: 10000
+
+# Conversation history cap (checkpoint DB safety — see docs/02_design.md F-03)
+history_max_turns: 8

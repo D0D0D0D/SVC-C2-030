@@ -1,0 +1,28 @@
+# Agent Manifest — AgentRegistry entry point
+# AgentRegistry reads discovery and compile-time keys at the root level.
+id: "SVC-C2-030"
+name: "Lodging Guest Multilingual Concierge Agent"
+namespace: "svc"
+version: "1.0.0"
+enabled: true
+category: "Cat 2"
+generation_mode: "llm"
+industry: "SVC"
+
+# Opaque compatibility metadata.
+base_type: "RAGAgent"
+
+# Entry point — single dotted import path (module.Class).
+class: "src.graph.graph.LodgingConciergeGraph"
+
+# Security
+required_trust_level: "VERIFIED_EXTERNAL"
+
+requires:
+  # Only the embedding credential is a manifest secret. Endpoint/model/vector
+  # settings are runtime parameters in config/config.yaml.
+  secrets:
+    - "HOTEL_KB_EMBEDDING_API_KEY"
+  extras:
+    - anthropic
+    - platform-rag
